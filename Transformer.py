@@ -61,15 +61,15 @@ class transformer(nn.Module):
 
 
 # 超参数
-vocab_size = 1000
-num_layer  = 2
-num_head   = 4
-dim        = 128
-d_ff       = 256
+vocab_size = 5000
+num_layer  = 6
+num_head   = 8
+dim        = 512
+d_ff       = 2048
 dropout    = 0.1
 batch_size = 2
-src_len    = 10
-tgt_len    = 8
+src_len    = 128
+tgt_len    = 128
 
 # causal mask：防止 decoder 看到未来的 token
 def make_causal_mask(size):
@@ -96,3 +96,10 @@ print("输入 tgt shape:", tgt.shape)   # [2, 8]
 print("输出 shape:", out.shape)        # [2, 8, 1000]
 print("带 mask 输出 shape:", out.shape)  # [2, 8, 1000]
 print("测试通过！")
+
+
+from torchinfo import summary
+
+model = transformer(vocab_size, num_layer, num_head, dim, d_ff, dropout)
+
+summary(model, input_data=(src, tgt))

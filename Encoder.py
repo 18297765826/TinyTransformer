@@ -47,6 +47,34 @@ class EncoderLayer(nn.Module):
 
 
 
+# class token_emb(nn.Module):
+#     def __init__(self,vocab_size,dim):
+#         super().__init__()
+#         self.embedding=nn.Embedding(vocab_size,dim)
+#     def forward(self):
+#         return self.embedding
+#
+#
+#
+# class Pos_Emb(nn.Module):
+#     def __init__(self):
+#         super().__init__()
+
+
+
+
+class Encoder(nn.Module):
+    def __init__(self,num_layer,num_head,dim,d_ff,dropout=0.1):
+        super().__init__()
+        self.layers=nn.ModuleList([EncoderLayer(num_head,dim,d_ff,dropout) for _ in range(num_layer)])
+        # self.num_layer=num_layer
+        # self.encoderlayer=EncoderLayer(num_head,dim,d_ff,dropout)
+    def forward(self,x,mask=None):
+        #注意怎么叠加
+        for layer in self.layers:
+            x =layer(x,mask)
+        return x
+
 
 
 
